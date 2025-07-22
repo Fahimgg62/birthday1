@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, Shifa! ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Basic Reset & Body Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(to bottom right, #e0bbe4, #957dad); /* Soft gradient background */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh; /* Ensures content extends to at least full viewport height */
+            color: #333;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+            position: relative; /* For particle positioning */
+        }
+
+        /* Initial Card Cover Animation */
+        .card-cover {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom left, #ffafcc, #bde0fe); /* Soft pink/blue cover */
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Great Vibes', cursive;
+            color: #fff;
+            font-size: 8vmin; /* Responsive font size */
+            opacity: 1;
+            transform-origin: center;
+            animation: coverOpen 2s ease-in-out forwards;
+            animation-delay: 1s; /* Delay before it starts opening */
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .cover-text {
+            opacity: 0;
+            animation: fadeInText 1s ease-in forwards;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes fadeInText {
+            to { opacity: 1; }
+        }
+
+        @keyframes coverOpen {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(0); opacity: 0; visibility: hidden; }
+        }
+
+        /* Particle/Heart Animation */
+        .particle-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0; /* Behind the card content */
+        }
+
+        .particle {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            animation: floatAndFade 10s infinite ease-in-out;
+            opacity: 0;
+        }
+
+        .particle.heart {
+            background: none;
+            font-size: 2vmin; /* Responsive heart size */
+            color: rgba(255, 99, 132, 0.8); /* Red heart color */
+            animation: floatAndFadeHeart 10s infinite ease-in-out;
+            transform: scale(0);
+        }
+
+        @keyframes floatAndFade {
+            0% { transform: translate(0, 0) scale(0); opacity: 0; }
+            20% { opacity: 1; transform: scale(1); }
+            80% { opacity: 1; }
+            100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
+        }
+
+        @keyframes floatAndFadeHeart {
+            0% { transform: translate(0, 0) scale(0) rotate(0deg); opacity: 0; }
+            20% { opacity: 1; transform: scale(1) rotate(var(--rot)); }
+            80% { opacity: 1; }
+            100% { transform: translate(var(--dx), var(--dy)) scale(0) rotate(var(--rot-end)); opacity: 0; }
+        }
+
+        /* Card Content Styling */
+        .birthday-card {
+            background: rgba(255, 255, 255, 0.9); /* Slightly transparent white card */
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 5vh 5vw; /* Responsive padding */
+            margin: 10vh auto; /* Center with vertical margin */
+            max-width: 90vw; /* Max width for mobile */
+            width: 500px; /* Max width for larger screens */
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: cardAppear 1s ease-out forwards;
+            animation-delay: 2.8s; /* Appears after cover opens */
+            position: relative;
+            z-index: 1; /* Above particles */
+            overflow: hidden; /* Hide overflow of inner elements if any */
+        }
+
+        @keyframes cardAppear {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .main-heading {
+            font-family: 'Great Vibes', cursive;
+            font-size: 10vmin; /* Very prominent on mobile */
+            color: #8338ec; /* A lovely purple */
+            margin-bottom: 3vh;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .sub-heading {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3.5vmin; /* Slightly smaller for detailed text */
+            color: #6a0572; /* Darker purple */
+            margin-bottom: 4vh;
+            font-weight: 700;
+        }
+
+        .message-paragraph {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5vmin; /* Readable text size */
+            line-height: 1.6;
+            margin-bottom: 2.5vh;
+            color: #555;
+            text-align: justify; /* Justify for elegance */
+        }
+
+        .signature {
+            font-family: 'Great Vibes', cursive;
+            font-size: 4vmin;
+            color: #d62828; /* Romantic red */
+            margin-top: 5vh;
+            text-align: right;
+        }
+
+        /* Decorative Elements */
+        .sparkle {
+            position: absolute;
+            background-color: gold;
+            border-radius: 50%;
+            animation: sparklePulse 2s infinite alternate;
+            opacity: 0;
+            box-shadow: 0 0 10px gold;
+        }
+
+        /* Specific sparkle positions - feel free to add more */
+        .sparkle:nth-child(1) { top: 10%; left: 15%; width: 10px; height: 10px; animation-delay: 0.5s; }
+        .sparkle:nth-child(2) { bottom: 20%; right: 10%; width: 8px; height: 8px; animation-delay: 1.2s; }
+        .sparkle:nth-child(3) { top: 30%; right: 30%; width: 12px; height: 12px; animation-delay: 0.9s; }
+
+        @keyframes sparklePulse {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            100% { transform: scale(1.2); opacity: 1; }
+        }
+
+        /* For scrollable content below the card */
+        .extra-content {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            padding: 4vh 5vw;
+            margin: 5vh auto 10vh auto; /* Spacing */
+            max-width: 90vw;
+            width: 500px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            color: #444;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: cardAppear 1s ease-out forwards;
+            animation-delay: 3.5s; /* Appears after main card */
+        }
+
+        .extra-content h3 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 5vmin;
+            color: #c1121f; /* Deeper red */
+            margin-bottom: 2vh;
+        }
+
+        .extra-content p {
+            font-size: 2.2vmin;
+            line-height: 1.5;
+            text-align: justify;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card-cover" id="cardCover">
+        <span class="cover-text">A Special Wish For You...</span>
+    </div>
+
+    <div class="particle-container" id="particleContainer"></div>
+
+    <div class="birthday-card" id="birthdayCard">
+        <h1 class="main-heading">Happy Birthday, Shifa!</h1>
+        <h2 class="sub-heading">To My Dearest Shifa,</h2>
+
+        <p class="message-paragraph">
+           On this very special day, I want to wish you the happiest birthday ever!
+You are one of the most precious people in my life, and your smile lights up even my darkest days.
+
+Having you in my life is nothing short of a blessing.
+Your kindness, your laughter, your little mood swings — everything about you makes you unique and irreplaceable.
+
+May this birthday bring you endless joy, unforgettable memories, and all the love your heart can hold.
+Keep smiling, keep shining — because the world is so much better with you in it.
+
+Happy Birthday once again, my favorite person.
+Let’s make this day as beautiful as your soul. 💖
+        </p>
+
+        <p class="signature">With all my love,</p>
+        <p class="signature">Your Meku</p> <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+    </div>
+
+    <div class="extra-content">
+        <h3>A Little Something for You...</h3>
+        <p>
+            Just like the timeless beauty of a blooming rose, your spirit continues to inspire and captivate. May your special day be just the beginning of a year filled with grand adventures, quiet moments of bliss, and all the love the universe has to offer. Thank you for being you. I LOVE U💖
+        </p>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px;">
+    <a href="rose.html">
+        <button style="padding: 12px 25px; background-color: #ff69b4; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">
+            🌹 Click to See the Surprise Rose
+        </button>
+    </a>
+</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cardCover = document.getElementById('cardCover');
+            const birthdayCard = document.getElementById('birthdayCard');
+            const particleContainer = document.getElementById('particleContainer');
+
+            // --- Particle/Heart Generation ---
+            function createParticle() {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                if (Math.random() > 0.5) { // 50% chance to be a heart
+                    particle.classList.add('heart');
+                    particle.innerHTML = '❤️';
+                }
+
+                const size = Math.random() * 20 + 5; // 5px to 25px
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+
+                const startX = Math.random() * window.innerWidth;
+                const startY = Math.random() * window.innerHeight;
+                particle.style.left = `${startX}px`;
+                particle.style.top = `${startY}px`;
+
+                // Random animation properties
+                const duration = Math.random() * 5 + 5; // 5s to 10s
+                const delay = Math.random() * 5; // 0s to 5s
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${delay}s`;
+
+                // Random end translation for floatAndFade
+                const dx = (Math.random() - 0.5) * window.innerWidth * 0.8; // -0.4 to 0.4 of width
+                const dy = (Math.random() - 0.5) * window.innerHeight * 0.8; // -0.4 to 0.4 of height
+                particle.style.setProperty('--dx', `${dx}px`);
+                particle.style.setProperty('--dy', `${dy}px`);
+
+                if (particle.classList.contains('heart')) {
+                    const rot = Math.random() * 360 - 180; // -180 to 180 deg
+                    const rotEnd = Math.random() * 360 - 180; // -180 to 180 deg
+                    particle.style.setProperty('--rot', `${rot}deg`);
+                    particle.style.setProperty('--rot-end', `${rotEnd}deg`);
+                }
+
+                particleContainer.appendChild(particle);
+
+                // Remove particle after it finishes animation to prevent memory leak
+                particle.addEventListener('animationend', () => {
+                    particle.remove();
+                });
+            }
+
+            // Generate a continuous stream of particles
+            setInterval(createParticle, 300); // Create a new particle every 300ms
+
+            // You can also create a burst initially
+            for (let i = 0; i < 20; i++) {
+                createParticle();
+            }
+
+            // --- Card Cover Interaction (if you want a click to reveal) ---
+            // Uncomment the section below if you prefer clicking to reveal
+            /*
+            cardCover.addEventListener('click', () => {
+                cardCover.style.animationPlayState = 'running';
+                birthdayCard.style.animationPlayState = 'running';
+            });
+
+            // Initially pause animations until clicked
+            cardCover.style.animationPlayState = 'paused';
+            birthdayCard.style.animationPlayState = 'paused';
+            */
+        });
+    </script>
+</body>
+</html>

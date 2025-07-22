@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Heart's Confession for Shifa ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Basic Reset & Body Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(to bottom right, #5d3f6a, #a64d79, #c780b4); /* Deep, rich romantic gradient */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            color: #f8f8f8; /* Light text for dark background */
+            overflow-x: hidden; /* Prevent horizontal scroll */
+            position: relative;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="gold" stroke="none"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>') 15 15, auto; /* Custom heart cursor */
+        }
+
+        /* Ambient Particle/Star/Sparkle Animation */
+        .ambient-particle-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0; /* Behind main content */
+        }
+
+        .ambient-particle {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: twinkleAndFloat 15s infinite ease-in-out;
+            opacity: 0;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
+        }
+
+        .ambient-particle.star {
+            background: none;
+            font-size: 2.5vmin;
+            color: rgba(255, 215, 0, 0.9); /* Gold star */
+            animation: twinkleAndFloatStar 15s infinite ease-in-out;
+            transform: scale(0);
+        }
+
+        @keyframes twinkleAndFloat {
+            0% { transform: translate(0, 0) scale(0); opacity: 0; }
+            10% { opacity: 0.8; transform: scale(1); }
+            90% { opacity: 0.8; }
+            100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
+        }
+
+        @keyframes twinkleAndFloatStar {
+            0% { transform: translate(0, 0) scale(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.9; transform: scale(1) rotate(var(--rot)); }
+            90% { opacity: 0.9; }
+            100% { transform: translate(var(--dx), var(--dy)) scale(0) rotate(var(--rot-end)); opacity: 0; }
+        }
+
+        /* Initial Card Reveal Animation */
+        .confession-cover {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #1a0033, #4d0066, #7a0099); /* Deep, mysterious purple */
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Playfair Display', serif;
+            color: #fff;
+            font-size: 7vmin;
+            opacity: 1;
+            transform-origin: center;
+            animation: coverSlideOpen 2.5s ease-in-out forwards;
+            animation-delay: 1s;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 25px rgba(255, 255, 255, 0.6);
+            overflow: hidden; /* For the slide effect */
+        }
+
+        .cover-text {
+            opacity: 0;
+            animation: fadeInText 1s ease-in forwards;
+            animation-delay: 0.5s;
+        }
+
+        .cover-sparkle {
+            position: absolute;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.9), transparent);
+            border-radius: 50%;
+            animation: sparkleBurst 1.5s ease-out forwards;
+            opacity: 0;
+        }
+        .cover-sparkle:nth-child(1) { width: 40px; height: 40px; top: 20%; left: 20%; animation-delay: 0.2s; }
+        .cover-sparkle:nth-child(2) { width: 50px; height: 50px; bottom: 15%; right: 25%; animation-delay: 0.4s; }
+        .cover-sparkle:nth-child(3) { width: 35px; height: 35px; top: 50%; left: 70%; animation-delay: 0.6s; }
+
+        @keyframes fadeInText {
+            to { opacity: 1; }
+        }
+
+        @keyframes coverSlideOpen {
+            0% { transform: translateY(0); opacity: 1; }
+            80% { transform: translateY(-100%); opacity: 1; }
+            100% { transform: translateY(-100%); opacity: 0; visibility: hidden; }
+        }
+
+        @keyframes sparkleBurst {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.5); opacity: 1; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+
+        /* Main Confession Card Styling */
+        .confession-card {
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.98), rgba(255, 240, 245, 0.95)); /* Soft, precious white/pinkish background */
+            border-radius: 25px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4), 0 0 60px rgba(131, 56, 236, 0.3); /* Deeper shadow with purple glow */
+            padding: 6vh 6vw;
+            margin: 10vh auto;
+            max-width: 95vw; /* Slightly wider for phones */
+            width: 550px; /* Max width for larger screens */
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: cardFadeIn 1.5s ease-out forwards;
+            animation-delay: 3s; /* Appears after cover */
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+            border: 2px solid gold; /* Precious border */
+        }
+
+        @keyframes cardFadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .main-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 11vmin; /* Grand title */
+            color: #8338ec; /* Royal purple */
+            margin-bottom: 4vh;
+            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2), 0 0 15px #FFD700; /* Shadow with golden glow */
+            line-height: 1;
+        }
+
+        .opening-line {
+            font-family: 'Great Vibes', cursive;
+            font-size: 6vmin;
+            color: #d62828; /* Romantic red */
+            margin-bottom: 3vh;
+        }
+
+        .message-section {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.8vmin;
+            line-height: 1.7;
+            margin-bottom: 3.5vh;
+            color: #444;
+            text-align: justify;
+            max-height: 50vh; /* Limit height for scrollable content inside card if too long */
+            overflow-y: auto; /* Enable internal scrolling if content overflows */
+            padding-right: 15px; /* Space for scrollbar */
+        }
+
+        /* Custom scrollbar for message section */
+        .message-section::-webkit-scrollbar {
+            width: 8px;
+        }
+        .message-section::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .message-section::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        .message-section::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+
+        .question-line {
+            font-family: 'Playfair Display', serif;
+            font-size: 4vmin;
+            color: #8338ec;
+            margin-top: 5vh;
+            font-weight: 700;
+        }
+
+        .signature-line {
+            font-family: 'Great Vibes', cursive;
+            font-size: 5vmin;
+            color: #d62828;
+            margin-top: 4vh;
+            text-align: right;
+        }
+
+        /* Animated Ring */
+        .ring-container {
+            width: 100%;
+            height: 20vmin; /* Adjust height based on ring size */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 5vh auto; /* Position after message */
+            position: relative;
+            opacity: 0;
+            transform: scale(0.5);
+            animation: ringPopIn 1.5s ease-out forwards;
+            animation-delay: 5s; /* Appears after message has been read */
+            z-index: 5;
+        }
+
+        @keyframes ringPopIn {
+            0% { opacity: 0; transform: scale(0.5) translateY(20px); }
+            60% { opacity: 1; transform: scale(1.1) translateY(-10px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .ring {
+            width: 12vmin; /* Responsive ring size */
+            height: 12vmin;
+            border: 0.8vmin solid gold; /* Gold band */
+            border-radius: 50%;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 15px gold, inset 0 0 5px rgba(255, 215, 0, 0.7);
+            animation: ringGlow 3s infinite alternate;
+            transform-style: preserve-3d; /* For jewel rotation */
+        }
+
+        @keyframes ringGlow {
+            0% { box-shadow: 0 0 15px gold, inset 0 0 5px rgba(255, 215, 0, 0.7); }
+            100% { box-shadow: 0 0 25px gold, inset 0 0 8px rgba(255, 215, 0, 0.9); }
+        }
+
+        .jewel {
+            width: 4vmin; /* Diamond size */
+            height: 4vmin;
+            background: radial-gradient(circle at 30% 30%, #fff, #b3d9ff, #66b3ff); /* Diamond sparkle effect */
+            border-radius: 10%; /* Slightly faceted look */
+            position: absolute;
+            top: -2vmin; /* Position above the band */
+            left: 50%;
+            transform: translateX(-50%) rotateX(70deg) rotateY(0deg);
+            box-shadow: 0 0 15px rgba(102, 179, 255, 0.8), 0 0 25px rgba(102, 179, 255, 0.6);
+            animation: jewelShimmer 5s infinite ease-in-out;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        @keyframes jewelShimmer {
+            0% { transform: translateX(-50%) rotateX(70deg) rotateY(0deg) scale(1); box-shadow: 0 0 15px rgba(102, 179, 255, 0.8); }
+            25% { transform: translateX(-50%) rotateX(70deg) rotateY(30deg) scale(1.05); box-shadow: 0 0 20px rgba(102, 179, 255, 0.9); }
+            50% { transform: translateX(-50%) rotateX(70deg) rotateY(0deg) scale(1); box-shadow: 0 0 15px rgba(102, 179, 255, 0.8); }
+            75% { transform: translateX(-50%) rotateX(70deg) rotateY(-30deg) scale(1.05); box-shadow: 0 0 20px rgba(102, 179, 255, 0.9); }
+            100% { transform: translateX(-50%) rotateX(70deg) rotateY(0deg) scale(1); box-shadow: 0 0 15px rgba(102, 179, 255, 0.8); }
+        }
+
+        /* Placeholder for extra content below the card */
+        .acknowledgement {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 3vh 4vw;
+            margin: 5vh auto 10vh auto;
+            max-width: 90vw;
+            width: 500px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            color: #eee;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: cardFadeIn 1s ease-out forwards;
+            animation-delay: 6s; /* Appears after ring */
+        }
+        .acknowledgement p {
+            font-size: 2.2vmin;
+            line-height: 1.5;
+            font-style: italic;
+        }
+
+        /* Media Queries for fine-tuning on larger screens */
+        @media (min-width: 768px) {
+            .confession-card {
+                padding: 40px 50px;
+            }
+            .main-title {
+                font-size: 5rem;
+            }
+            .opening-line {
+                font-size: 2.5rem;
+            }
+            .message-section {
+                font-size: 1.1rem;
+            }
+            .question-line {
+                font-size: 1.8rem;
+            }
+            .signature-line {
+                font-size: 2rem;
+            }
+            .ring {
+                width: 80px;
+                height: 80px;
+                border-width: 6px;
+            }
+            .jewel {
+                width: 25px;
+                height: 25px;
+                top: -15px;
+            }
+            .acknowledgement p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="confession-cover" id="confessionCover">
+        <span class="cover-text">A Moment of Truth...</span>
+        <div class="cover-sparkle"></div>
+        <div class="cover-sparkle"></div>
+        <div class="cover-sparkle"></div>
+    </div>
+
+    <div class="ambient-particle-container" id="ambientParticleContainer"></div>
+
+    <div class="confession-card" id="confessionCard">
+        <h1 class="main-title">My Dearest Shifa,</h1>
+        <h2 class="opening-line">With a heart full of unspoken dreams...</h2>
+
+        <div class="message-section">
+            <p>
+                From the very first moment our paths intertwined, a quiet magic began to weave itself into the fabric of my life. Each shared glance, every soft spoken word, and all the laughter we've created together have painted my world in hues I never knew existed. You are, unequivocally, a rare and precious gem, a source of light and inspiration that brightens even the darkest corners of my days.
+            </p>
+            <p>
+                As time unfolds, my feelings for you have blossomed into something profound, something deeply meaningful that transcends mere words. You are not just a presence in my life; you are the very essence of it, the missing piece I always yearned for, the harmony to my melody.
+            </p>
+            <p>
+                Your strength, your kindness, your captivating spirit—they all draw me closer, making me realize that my journey feels incomplete without you by my side. I've found in you a solace, a joy, and a connection so pure, it feels like destiny.
+            </p>
+        </div>
+
+        <div class="ring-container">
+            <div class="ring">
+                <div class="jewel"></div>
+            </div>
+        </div>
+
+        <h3 class="question-line">
+            Shifa, will you be my soulmate, my forever, my extraordinary partner in this beautiful adventure called life?
+        </h3>
+
+        <p class="signature-line">With eternal devotion,</p>
+        <p class="signature-line">Your Fimu</p> </div>
+
+    <div class="acknowledgement">
+        <p>A moment whispered from the heart, destined to be cherished forever.</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const confessionCover = document.getElementById('confessionCover');
+            const ambientParticleContainer = document.getElementById('ambientParticleContainer');
+
+            // --- Ambient Particle/Star Generation ---
+            function createAmbientParticle() {
+                const particle = document.createElement('div');
+                particle.classList.add('ambient-particle');
+                if (Math.random() > 0.6) { // ~40% chance to be a star
+                    particle.classList.add('star');
+                    particle.innerHTML = '✨'; // Star emoji
+                }
+
+                const size = Math.random() * 10 + 3; // 3px to 13px for particles
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+
+                const startX = Math.random() * window.innerWidth;
+                const startY = Math.random() * window.innerHeight;
+                particle.style.left = `${startX}px`;
+                particle.style.top = `${startY}px`;
+
+                const duration = Math.random() * 10 + 10; // 10s to 20s
+                const delay = Math.random() * 10; // 0s to 10s
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${delay}s`;
+
+                const dx = (Math.random() - 0.5) * window.innerWidth * 1.5; // Wider movement
+                const dy = (Math.random() - 0.5) * window.innerHeight * 1.5; // Taller movement
+                particle.style.setProperty('--dx', `${dx}px`);
+                particle.style.setProperty('--dy', `${dy}px`);
+
+                if (particle.classList.contains('star')) {
+                    const rot = Math.random() * 720 - 360; // More rotation
+                    const rotEnd = Math.random() * 720 - 360;
+                    particle.style.setProperty('--rot', `${rot}deg`);
+                    particle.style.setProperty('--rot-end', `${rotEnd}deg`);
+                }
+
+                ambientParticleContainer.appendChild(particle);
+
+                particle.addEventListener('animationend', () => {
+                    particle.remove(); // Remove to prevent DOM bloat
+                    createAmbientParticle(); // Create a new one to keep continuous effect
+                });
+            }
+
+            // Generate a continuous stream of ambient particles/stars
+            for (let i = 0; i < 30; i++) { // Start with 30 particles
+                createAmbientParticle();
+            }
+
+            // Optional: If you want to require a click to reveal the card
+            /*
+            confessionCover.addEventListener('click', () => {
+                confessionCover.style.animationPlayState = 'running';
+                document.getElementById('confessionCard').style.animationPlayState = 'running';
+                document.querySelectorAll('.sparkle').forEach(s => s.style.animationPlayState = 'running');
+            });
+            document.getElementById('confessionCard').style.animationPlayState = 'paused';
+            document.querySelectorAll('.sparkle').forEach(s => s.style.animationPlayState = 'paused');
+            */
+        });
+    </script>
+</body>
+</html>
