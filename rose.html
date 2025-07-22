@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colorful Rose Animation (Scrollable)</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column; /* Arrange content vertically */
+            justify-content: flex-start; /* Start content from the top */
+            align-items: center;
+            min-height: 100vh; /* Minimum height to take full viewport */
+            background: linear-gradient(to right bottom, #8A2BE2, #FF69B4, #00BFFF); /* Vibrant background */
+            font-family: Arial, sans-serif;
+            position: relative;
+            /* Removed overflow: hidden; to allow scrolling */
+        }
+
+        .rose-container {
+            position: relative;
+            width: 80vmin; /* Responsive width based on viewport */
+            height: 80vmin; /* Responsive height */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: containerBloom 8s ease-out forwards;
+            margin-top: 5vh; /* Add some space from the top */
+            margin-bottom: 5vh; /* Add space below the rose to make it scrollable */
+        }
+
+        /* Petal Styling */
+        .petal {
+            position: absolute;
+            width: 30vmin;
+            height: 50vmin;
+            border-radius: 50% 50% 0 0; /* Top half of an ellipse */
+            transform-origin: bottom center;
+            opacity: 0; /* Start hidden */
+            animation: petalBloom 6s ease-out forwards;
+            background: linear-gradient(45deg, var(--color1), var(--color2)); /* Dynamic colors */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Individual Petal Positions and Delays */
+        .petal:nth-child(1) { transform: rotate(0deg) scale(0); animation-delay: 0.5s; }
+        .petal:nth-child(2) { transform: rotate(30deg) scale(0); animation-delay: 0.7s; }
+        .petal:nth-child(3) { transform: rotate(-30deg) scale(0); animation-delay: 0.9s; }
+        .petal:nth-child(4) { transform: rotate(60deg) scale(0); animation-delay: 1.1s; }
+        .petal:nth-child(5) { transform: rotate(-60deg) scale(0); animation-delay: 1.3s; }
+        .petal:nth-child(6) { transform: rotate(90deg) scale(0); animation-delay: 1.5s; }
+        .petal:nth-child(7) { transform: rotate(-90deg) scale(0); animation-delay: 1.7s; }
+        .petal:nth-child(8) { transform: rotate(120deg) scale(0); animation-delay: 1.9s; }
+        .petal:nth-child(9) { transform: rotate(-120deg) scale(0); animation-delay: 2.1s; }
+        .petal:nth-child(10) { transform: rotate(150deg) scale(0); animation-delay: 2.3s; }
+        .petal:nth-child(11) { transform: rotate(-150deg) scale(0); animation-delay: 2.5s; }
+        .petal:nth-child(12) { transform: rotate(180deg) scale(0); animation-delay: 2.7s; }
+
+        /* More inner petals for fullness */
+        .petal:nth-child(13) { transform: rotate(15deg) scale(0); animation-delay: 2.9s; width: 25vmin; height: 40vmin; z-index: 1; }
+        .petal:nth-child(14) { transform: rotate(-15deg) scale(0); animation-delay: 3.1s; width: 25vmin; height: 40vmin; z-index: 1; }
+        .petal:nth-child(15) { transform: rotate(45deg) scale(0); animation-delay: 3.3s; width: 20vmin; height: 35vmin; z-index: 2; }
+        .petal:nth-child(16) { transform: rotate(-45deg) scale(0); animation-delay: 3.5s; width: 20vmin; height: 35vmin; z-index: 2; }
+        .petal:nth-child(17) { transform: rotate(0deg) scale(0); animation-delay: 3.7s; width: 15vmin; height: 30vmin; z-index: 3; }
+
+
+        /* Stem */
+        .stem {
+            position: absolute;
+            bottom: -30vmin; /* Position it below the rose */
+            width: 3vmin;
+            height: 50vmin;
+            background: linear-gradient(to top, #228B22, #32CD32); /* Green gradient */
+            border-radius: 1.5vmin;
+            z-index: -1; /* Behind petals */
+            transform-origin: top center;
+            animation: stemGrow 3s ease-out forwards;
+        }
+
+        /* Leaves */
+        .leaf {
+            position: absolute;
+            width: 15vmin;
+            height: 7vmin;
+            background: linear-gradient(45deg, #228B22, #3CB371);
+            border-radius: 0 50% 50% 50%;
+            transform-origin: left center;
+            z-index: -1;
+            opacity: 0;
+            animation: leafAppear 2s ease-out forwards;
+        }
+
+        .leaf-left {
+            bottom: -15vmin;
+            left: -10vmin;
+            transform: rotate(-30deg) scale(0);
+            animation-delay: 3.5s;
+        }
+
+        .leaf-right {
+            bottom: -20vmin;
+            right: -10vmin;
+            transform: rotate(30deg) scale(0);
+            animation-delay: 3.8s;
+        }
+
+
+        /* Animations */
+
+        @keyframes containerBloom {
+            0% { transform: scale(0); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes petalBloom {
+            0% { transform: scale(0) rotate(var(--initial-rotation)); opacity: 0; }
+            70% { opacity: 1; }
+            100% { transform: scale(1) rotate(var(--final-rotation)); opacity: 1; }
+        }
+
+        @keyframes stemGrow {
+            0% { transform: scaleY(0); }
+            100% { transform: scaleY(1); }
+        }
+
+        @keyframes leafAppear {
+            0% { transform: scale(0) rotate(var(--initial-rotation)); opacity: 0; }
+            100% { transform: scale(1) rotate(var(--final-rotation)); opacity: 1; }
+        }
+
+        /* Subtle floating animation */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .rose-container {
+            animation: containerBloom 3s ease-out forwards, float 5s ease-in-out infinite alternate;
+        }
+
+        /* Placeholder content for scrolling */
+        .content-below {
+            width: 90%;
+            max-width: 600px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: #fff;
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 100px; /* Ensure there's enough content to scroll past */
+        }
+
+        .content-below h2 {
+            margin-bottom: 15px;
+            font-size: 1.8em;
+            color: #FFD700; /* Gold */
+        }
+
+        .content-below p {
+            line-height: 1.6;
+            font-size: 1.1em;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Media Queries for very subtle adjustments, mainly for larger screens */
+        @media (min-width: 600px) {
+            .rose-container {
+                width: 60vmin;
+                height: 60vmin;
+            }
+            .petal {
+                width: 25vmin;
+                height: 40vmin;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="rose-container" id="roseContainer">
+        <div class="petal"></div>
+        <div class="petal"></div>
+        <div class="petal"></div>
+        <div class="petal"></div>
+        <div class="petal"></div>
+        <div class="petal"></div>
+        <div class="petal"></div>
+        <div class="petal"></div>
+        <div class="petal"></div>
+        <div class="petal"></div>
+        <div class="petal"></div>
+        <div class="petal"></div>
+        <div class="petal"></div>
+        <div class="petal"></div>
+        <div class="petal"></div>
+        <div class="petal"></div>
+        <div class="petal"></div>
+
+        <div class="stem"></div>
+        <div class="leaf leaf-left"></div>
+        <div class="leaf leaf-right"></div>
+    </div>
+
+    
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Colorful Rose Animation</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right bottom, #8A2BE2, #FF69B4, #00BFFF);
+      position: relative;
+      padding-bottom: 180px; /* space for bottom button */
+    }
+
+    .rose-container {
+      position: relative;
+      width: 80vmin;
+      height: 80vmin;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: containerBloom 3s ease-out forwards, float 5s ease-in-out infinite alternate;
+      margin-top: 5vh;
+    }
+
+    .petal {
+      position: absolute;
+      width: 30vmin;
+      height: 50vmin;
+      border-radius: 50% 50% 0 0;
+      transform-origin: bottom center;
+      opacity: 0;
+      animation: petalBloom 6s ease-out forwards;
+      background: linear-gradient(45deg, var(--color1), var(--color2));
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Petal delays */
+    .petal:nth-child(n) { transform: scale(0); }
+    .petal:nth-child(1) { transform: rotate(0deg); animation-delay: 0.5s; }
+    .petal:nth-child(2) { transform: rotate(30deg); animation-delay: 0.7s; }
+    .petal:nth-child(3) { transform: rotate(-30deg); animation-delay: 0.9s; }
+    .petal:nth-child(4) { transform: rotate(60deg); animation-delay: 1.1s; }
+    .petal:nth-child(5) { transform: rotate(-60deg); animation-delay: 1.3s; }
+    .petal:nth-child(6) { transform: rotate(90deg); animation-delay: 1.5s; }
+    .petal:nth-child(7) { transform: rotate(-90deg); animation-delay: 1.7s; }
+    .petal:nth-child(8) { transform: rotate(120deg); animation-delay: 1.9s; }
+    .petal:nth-child(9) { transform: rotate(-120deg); animation-delay: 2.1s; }
+    .petal:nth-child(10) { transform: rotate(150deg); animation-delay: 2.3s; }
+    .petal:nth-child(11) { transform: rotate(-150deg); animation-delay: 2.5s; }
+    .petal:nth-child(12) { transform: rotate(180deg); animation-delay: 2.7s; }
+
+    .stem {
+      position: absolute;
+      bottom: -30vmin;
+      width: 3vmin;
+      height: 50vmin;
+      background: linear-gradient(to top, #228B22, #32CD32);
+      border-radius: 1.5vmin;
+      z-index: -1;
+      transform-origin: top center;
+      animation: stemGrow 3s ease-out forwards;
+    }
+
+    .leaf {
+      position: absolute;
+      width: 15vmin;
+      height: 7vmin;
+      background: linear-gradient(45deg, #228B22, #3CB371);
+      border-radius: 0 50% 50% 50%;
+      z-index: -1;
+      opacity: 0;
+      animation: leafAppear 2s ease-out forwards;
+    }
+
+    .leaf-left {
+      bottom: -15vmin;
+      left: -10vmin;
+      transform: rotate(-30deg) scale(0);
+      animation-delay: 3.5s;
+    }
+
+    .leaf-right {
+      bottom: -20vmin;
+      right: -10vmin;
+      transform: rotate(30deg) scale(0);
+      animation-delay: 3.8s;
+    }
+
+    .content-below {
+      width: 90%;
+      max-width: 600px;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      color: #fff;
+      text-align: center;
+      margin-top: 80px;
+    }
+
+    .content-below h2 {
+      margin-bottom: 15px;
+      font-size: 1.8em;
+      color: #FFD700;
+    }
+
+    .content-below p {
+      line-height: 1.6;
+      font-size: 1.1em;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    .fade-in-button {
+      text-align: center;
+      opacity: 0;
+      animation: fadeInBtn 3s ease-in-out forwards;
+      animation-delay: 5s;
+      margin-top: 100px;
+    }
+
+    .fade-in-button button {
+      padding: 14px 30px;
+      background-color: #6a0572;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+      transition: transform 0.3s ease;
+    }
+
+    .fade-in-button button:hover {
+      transform: scale(1.05);
+    }
+
+    @keyframes fadeInBtn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes containerBloom {
+      0% { transform: scale(0); opacity: 0; }
+      50% { opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+
+    @keyframes petalBloom {
+      0% { transform: scale(0) rotate(var(--initial-rotation)); opacity: 0; }
+      70% { opacity: 1; }
+      100% { transform: scale(1) rotate(var(--final-rotation)); opacity: 1; }
+    }
+
+    @keyframes stemGrow {
+      0% { transform: scaleY(0); }
+      100% { transform: scaleY(1); }
+    }
+
+    @keyframes leafAppear {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Music -->
+  <audio autoplay loop>
+    <source src="https://cdn.pixabay.com/audio/2023/05/23/audio_baf92ad9c4.mp3" type="audio/mp3">
+    Your browser does not support the audio element.
+  </audio>
+
+  <div class="rose-container" id="roseContainer">
+    <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+    <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+    <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+    <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+    <div class="stem"></div>
+    <div class="leaf leaf-left"></div>
+    <div class="leaf leaf-right"></div>
+  </div>
+
+  <div class="content-below">
+    <h2>Just like a rose in full bloom...</h2>
+    <p>
+      Every petal, every color, every curve tells a story —  
+      a story of beauty, patience, and love.  
+      Just like how I feel when I think of you.
+    </p>
+  </div>
+
+  <!-- Final button -->
+  <div id="finalButton" class="fade-in-button">
+    <a href="confession.html">
+      <button>💌 Go to Final Message</button>
+    </a>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const petals = document.querySelectorAll('.petal');
+      petals.forEach((petal, index) => {
+        const color1 = `hsl(${Math.random() * 360}, 80%, 70%)`;
+        const color2 = `hsl(${Math.random() * 360}, 90%, 60%)`;
+        petal.style.setProperty('--color1', color1);
+        petal.style.setProperty('--color2', color2);
+        const initialRotation = (Math.random() * 360) - 180;
+        const finalRotation = (index * (360 / petals.length)) + (Math.random() * 20 - 10);
+        petal.style.setProperty('--initial-rotation', `${initialRotation}deg`);
+        petal.style.setProperty('--final-rotation', `${finalRotation}deg`);
+        petal.style.animationDelay = `${0.5 + index * 0.08}s`;
+      });
+
+      document.querySelector('.leaf-left').style.setProperty('--initial-rotation', '-60deg');
+      document.querySelector('.leaf-left').style.setProperty('--final-rotation', '-30deg');
+      document.querySelector('.leaf-right').style.setProperty('--initial-rotation', '60deg');
+      document.querySelector('.leaf-right').style.setProperty('--final-rotation', '30deg');
+    });
+  </script>
+</body>
+</html>
+
+
+
+    
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const petals = document.querySelectorAll('.petal');
+
+            petals.forEach((petal, index) => {
+                // Generate random vibrant colors for each petal
+                const color1 = `hsl(${Math.random() * 360}, 80%, 70%)`;
+                const color2 = `hsl(${Math.random() * 360}, 90%, 60%)`;
+
+                petal.style.setProperty('--color1', color1);
+                petal.style.setProperty('--color2', color2);
+
+                // Set initial and final rotation for bloom effect
+                const initialRotation = (Math.random() * 360) - 180; // Random initial rotation
+                const finalRotation = (index * (360 / petals.length)) + (Math.random() * 20 - 10); // Spread out petals
+                petal.style.setProperty('--initial-rotation', `${initialRotation}deg`);
+                petal.style.setProperty('--final-rotation', `${finalRotation}deg`);
+
+                // Adjust animation delay for a staggered bloom
+                petal.style.animationDelay = `${0.5 + index * 0.08}s`;
+            });
+
+            // Adjust leaf initial rotations for animation
+            document.querySelector('.leaf-left').style.setProperty('--initial-rotation', '-60deg');
+            document.querySelector('.leaf-left').style.setProperty('--final-rotation', '-30deg');
+
+            document.querySelector('.leaf-right').style.setProperty('--initial-rotation', '60deg');
+            document.querySelector('.leaf-right').style.setProperty('--final-rotation', '30deg');
+        });
+    </script>
+</body>
+</html>
